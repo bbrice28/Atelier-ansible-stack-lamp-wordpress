@@ -1,0 +1,24 @@
+- name: Installer Bind9
+  apt:
+    name: ['bind9', 'bind9utils', 'bind9-doc']
+    state: present
+    update_cache: yes
+
+- name: Configurer un enregistrement DNS
+  copy:
+    dest: /etc/bind/db.monapp.local
+    content: |
+      ;
+      ; BIND data file for monapp.local
+      ;
+      $TTL    604800
+      @       IN      SOA     monapp.local. root.monapp.local. (
+                            2         ; Serial
+                       604800         ; Refresh
+                        86400         ; Retry
+                      2419200         ; Expire
+                       604800 )       ; Negative Cache TTL
+      ;
+      @       IN      NS      monapp.local.
+      @       IN      A       192.168.163.137
+      www     IN      A       192.168.163.137
